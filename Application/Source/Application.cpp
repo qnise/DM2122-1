@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "Scene1.h"
+#include "Scene2.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -44,6 +44,12 @@ Application::~Application()
 {
 }
 
+void resize_callback(GLFWwindow* window, int w, int h)
+{
+	glViewport(0, 0, w, h); //update opengl the new window size
+}
+
+
 void Application::Init()
 {
 	//Set the error callback
@@ -64,7 +70,7 @@ void Application::Init()
 
 
 	//Create a window and create its OpenGL context
-	m_window = glfwCreateWindow(800, 600, "Test Window", NULL, NULL);
+	m_window = glfwCreateWindow(800, 800, "Test Window", NULL, NULL);
 
 	//If the window couldn't be created
 	if (!m_window)
@@ -90,12 +96,13 @@ void Application::Init()
 		fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
 		//return -1;
 	}
+	glfwSetWindowSizeCallback(m_window, resize_callback);
 }
 
 void Application::Run()
 {
 	//Main Loop
-	Scene *scene = new Scene1();
+	Scene *scene = new Scene2();
 	scene->Init();
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
